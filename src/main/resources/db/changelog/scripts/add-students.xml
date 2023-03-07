@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd"
+                   logicalFilePath="add-students.xml">
+    <changeSet id="add-students" author="username" runOnChange="true">
+        <preConditions onFail="MARK_RAN">
+            <tableExists tableName="student"/>
+        </preConditions>
+        <insert tableName="student">
+            <column name="surname" value="Sellers"/>
+            <column name="name" value="Patin"/>
+            <column name="birth_date" valueDate="2001-07-30"/>
+        </insert>
+        <insert tableName="student">
+            <column name="surname" value="Joontjes"/>
+            <column name="name" value="Sharona"/>
+            <column name="birth_date" valueDate="2007-07-17"/>
+        </insert>
+        <insert tableName="student">
+            <column name="surname" value="Cowper"/>
+            <column name="name" value="Dewie"/>
+            <column name="birth_date" valueDate="2004-12-19"/>
+        </insert>
+        <insert tableName="student">
+            <column name="surname" value="Jirzik"/>
+            <column name="name" value="Morena"/>
+            <column name="birth_date" valueDate="2004-07-11"/>
+        </insert>
+        <insert tableName="student">
+            <column name="surname" value="Mulder"/>
+            <column name="name" value="Shanda"/>
+            <column name="birth_date" valueDate="2002-12-08"/>
+        </insert>
+    </changeSet>
+</databaseChangeLog>

@@ -1,0 +1,45 @@
+services:
+  mysql:
+    image: mysql:8.0.28
+    container_name: mysql8-app
+    env_file: .env
+    ports:
+      - "3306:3306"
+    networks:
+      - app-network
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-p$MYSQL_ROOT_PASSWORD"]
+      interval: 2s
+      retries: 10
+  app:
+#    image: lecture/app:0.0.3
+#    pull_policy: build
+    build:
+      context: .
+      dockerfile: Dockerfile-multistage
+      args:
+        - VERSION_ID=3
+      tags:
+        - "lecture/app:0.0.3"
+    container_name: app
+    ports:
+      - "8080:8080"
+    env_file: .env
+    environment:
+      - MYSQL_DATABASE=$MYSQL_DATABASE
+      - MYSQL_HOST=$MYSQL_HOST
+      - MYSQL_PORT=$MYSQL_PORT
+      - MYSQL_USER=$MYSQL_USER
+      - MYSQL_PASSWORD=$MYSQL_PASSWORD
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - app-network
+networks:
+  app-network:
+    driver: bridge
